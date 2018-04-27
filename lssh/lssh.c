@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <errno.h>
 
 #define PROMPT "lambda-shell$ "
 
@@ -111,6 +112,16 @@ int main(void)
             waitpid(fc, NULL, 0);
         }
         
+        if (strcmp(args[0], "cd") == 0) {
+            if (args[1]) {
+                if (chdir(args[1]) == -1) {
+                    perror("chdir");
+                } else {
+                    continue;
+                }
+            }
+        }
+
     }
 
     return 0;
